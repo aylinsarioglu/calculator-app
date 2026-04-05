@@ -138,38 +138,40 @@ export default function Calculator() {
     <div className="calc-container">
       <div className="calculator">
         <div className="display" role="status" aria-live="polite">{display}</div>
-        {history.length > 0 && (
-          <div className="history" aria-label="Calculation history">
-            <ul>
-              {history.map((h, idx) => (
-                <li key={idx}>{h}</li>
-              ))}
-            </ul>
-          </div>
-        )}
         <div className="keys">
-          <div className="keypad">
-            {digits.map(d => (
-              <button key={d} className="btn" onClick={() => handleClick(d as ButtonKey)} aria-label={`Digit ${d}`}>
-                {d}
-              </button>
-            ))}
-            <button className="btn btn-clear" onClick={() => handleClick('C')} aria-label="Clear">C</button>
-            <button className="btn btn-equals" onClick={() => handleClick('=')} aria-label="Equals">=</button>
+          <div className="controls">
+            <div className="keypad">
+              {digits.map(d => (
+                <button key={d} className="btn" onClick={() => handleClick(d as ButtonKey)} aria-label={`Digit ${d}`}>
+                  {d}
+                </button>
+              ))}
+              <button className="btn btn-clear" onClick={() => handleClick('C')} aria-label="Clear">C</button>
+              <button className="btn btn-equals" onClick={() => handleClick('=')} aria-label="Equals">=</button>
+            </div>
+            <div className="operators">
+              {operators.map(op => (
+                <button
+                  key={op}
+                  className={`btn btn-op${operator === op ? ' active' : ''}`}
+                  onClick={() => handleClick(op as ButtonKey)}
+                  aria-pressed={operator === op}
+                  aria-label={`Operator ${op}`}
+                >
+                  {op}
+                </button>
+              ))}
+            </div>
           </div>
-          <div className="operators">
-            {operators.map(op => (
-              <button
-                key={op}
-                className={`btn btn-op${operator === op ? ' active' : ''}`}
-                onClick={() => handleClick(op as ButtonKey)}
-                aria-pressed={operator === op}
-                aria-label={`Operator ${op}`}
-              >
-                {op}
-              </button>
-            ))}
-          </div>
+          <aside className="history-panel" aria-label="Calculation history">
+            <div className="history">
+              <ul>
+                {history.map((h, idx) => (
+                  <li key={idx}>{h}</li>
+                ))}
+              </ul>
+            </div>
+          </aside>
         </div>
       </div>
     </div>
