@@ -91,6 +91,11 @@ export default function Calculator() {
   const digits = ['7', '8', '9', '4', '5', '6', '1', '2', '3', '0', '.']
   const operators: Array<'+' | '-' | '*' | '/'> = ['+', '-', '*', '/']
 
+  const previousCalculationLine =
+    firstValue !== null && operator !== null
+      ? `${formatResult(firstValue)} ${operator}`
+      : history[0] ?? null
+
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
       const key = e.key
@@ -137,7 +142,15 @@ export default function Calculator() {
   return (
     <div className="calc-container">
       <div className="calculator">
-        <div className="display" role="status" aria-live="polite">{display}</div>
+        <div className="display" role="status" aria-live="polite">
+          <div
+            className="display-previous-calculation"
+            aria-hidden={previousCalculationLine === null}
+          >
+            {previousCalculationLine ?? '\u00a0'}
+          </div>
+          <div className="display-current">{display}</div>
+        </div>
         <div className="keys">
           <div className="controls">
             <div className="keypad">
@@ -147,7 +160,6 @@ export default function Calculator() {
                 </button>
               ))}
               <button className="btn btn-clear" onClick={() => handleClick('C')} aria-label="Clear">C</button>
-              <button className="btn btn-equals" onClick={() => handleClick('=')} aria-label="Equals">=</button>
             </div>
             <div className="operators">
               {operators.map(op => (
@@ -162,10 +174,12 @@ export default function Calculator() {
                 </button>
               ))}
             </div>
+            <button className="btn btn-equals" onClick={() => handleClick('=')} aria-label="Equals">=</button>
           </div>
           <aside className="history-panel" aria-label="Calculation history">
+            <h3 className="history-title">History</h3>
             <div className="history">
-              <ul>
+              <ul className="history-list">
                 {history.map((h, idx) => (
                   <li key={idx}>{h}</li>
                 ))}
