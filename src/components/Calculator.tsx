@@ -27,7 +27,7 @@ export default function Calculator() {
   type ButtonKey =
     | '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
     | '+' | '-' | '*' | '/'
-    | '=' | 'C' | '.'
+    | '=' | 'C' | '.' | ','
 
   function handleClick(key: ButtonKey) {
     // Clear
@@ -39,14 +39,17 @@ export default function Calculator() {
       return
     }
 
-    // Decimal
-    if (key === '.') {
+    // Decimal (. or , from keyboard normalized to '.')
+    if (key === '.' || key === ',') {
       if (awaitingNextValue) {
         setDisplay('0.')
         setAwaitingNextValue(false)
         return
       }
-      setDisplay(prev => (prev.includes('.') ? prev : prev + '.'))
+      setDisplay(prev => {
+        if (prev === 'Error') return '0.'
+        return prev.includes('.') ? prev : prev + '.'
+      })
       return
     }
 
@@ -85,7 +88,7 @@ export default function Calculator() {
       setAwaitingNextValue(false)
       return
     }
-    setDisplay(prev => (prev === '0' ? key : prev + key))
+    setDisplay(prev => (prev === '0' || prev === 'Error' ? key : prev + key))
   }
 
   const digits = ['7', '8', '9', '4', '5', '6', '1', '2', '3', '0', '.']
@@ -117,10 +120,10 @@ export default function Calculator() {
         handleClick(key)
         return
       }
-      // Decimal
-      if (key === '.') {
+      // Decimal (. or comma on TR/EU keyboards)
+      if (key === '.' || key === ',') {
         e.preventDefault()
-        handleClick('.')
+        handleClick(key as ButtonKey)
         return
       }
       // Digits
