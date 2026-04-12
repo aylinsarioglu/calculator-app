@@ -1,17 +1,28 @@
 # Calculator App
 
-A simple calculator application built with React and TypeScript.
+Modern calculator built with React + TypeScript.
 
-## Features
-- Basic arithmetic operations (+, -, *, /)
-- Responsive UI
-- Component-based architecture
+## 🚀 Features
+- Basic operations (+, -, *, /)
+- Clean UI
+- Component-based structure
+- Fast with Vite
 
-## Tech Stack
+## 🛠 Tech Stack
 - React
 - TypeScript
 - Vite
 
-## Installation
+## 📂 Project Structure
+src/
+ ├── components/
+ │    └── Calculator
+ ├── App.tsx
+ └── main.tsx
+
+## ⚙️ Run Locally
 npm install
 npm run dev
+
+## 🎯 Purpose
+This project demonstrates component architecture and state management in React.
